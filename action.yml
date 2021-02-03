@@ -12,9 +12,8 @@ inputs:
     required: false
     default: 60
   dry_run:
-    description: "Whether we're actually deleting branches at all. Defaults to 'false'. Possible values: true, false (case sensitive)"
+    description: "Whether we're actually deleting branches at all. Defaults to 'yes'. Possible values: yes, no (case sensitive)"
     required: true
-    default: "true"
 
 outputs:
   deleted_branches: # id of output
