@@ -25,3 +25,4 @@ runs:
   args:
     - ${{ inputs.ignore_branches }}
     - ${{ inputs.last_commit_age_days }}
+    - ${{ inputs.dry_run }}

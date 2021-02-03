@@ -1,6 +1,6 @@
 on: [ push ]
 jobs:
-  run_our_action:
+  check_dry_run_no_branches:
     runs-on: ubuntu-latest
     name: Runs this repo's action
     steps:
@@ -10,8 +10,21 @@ jobs:
         uses: ./
         id: delete_stuff
         with:
-          dry_run: yes
-          ignore_branches: foo,bar
           last_commit_age_days: 9
+      - name: Get output
+        run: echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"
+
+  check_dry_run_with_branches:
+    runs-on: ubuntu-latest
+    name: Runs this repo's action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run our action
+        uses: ./
+        id: delete_stuff
+        with:
+          last_commit_age_days: 9
+          ignore_branches: foo,bar
       - name: Get output
         run: echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"
