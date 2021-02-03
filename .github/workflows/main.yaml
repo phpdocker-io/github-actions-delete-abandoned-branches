@@ -10,6 +10,7 @@ jobs:
         uses: ./
         id: delete_stuff
         with:
+          ignore_branches: foo,bar
           last_commit_age_days: 9
           dry_run: true
       - name: Get output
