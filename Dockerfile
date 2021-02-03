@@ -1,4 +1,4 @@
-FROM python:3.8-alpine
+FROM python
 
 WORKDIR /application
 
@@ -10,4 +10,4 @@ RUN pip --no-cache-dir install -r requirements.txt
 COPY main.py .
 COPY src     ./src
 
-ENTRYPOINT ["python3", "main.py"]
+ENTRYPOINT ["python3", "/application/main.py"]
