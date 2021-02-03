@@ -9,4 +9,4 @@ if __name__ == '__main__':
         dry_run=dry_run
     )
 
-    io.format_output(deleted_branches=deleted_branches)
+    io.format_output({'deleted_branches': deleted_branches})

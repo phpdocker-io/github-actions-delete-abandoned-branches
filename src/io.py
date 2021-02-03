@@ -23,5 +23,6 @@ def parse_input() -> (list, int):
     return branches_parsed, branch_last_commit, is_dry_run
 
 
-def format_output(deleted_branches: list) -> None:
-    print(f'::set-output deleted_branches={deleted_branches}')
+def format_output(output_strings: dict) -> None:
+    for name, value in output_strings.items():
+        print(f'::set-output name={name}::{value}')
