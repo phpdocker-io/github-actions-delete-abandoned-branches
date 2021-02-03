@@ -2,7 +2,7 @@ on: [ push ]
 jobs:
   check_dry_run_no_branches:
     runs-on: ubuntu-latest
-    name: Runs this repo's action
+    name: Runs the action with no ignore branches
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
 
   check_dry_run_with_branches:
     runs-on: ubuntu-latest
-    name: Runs this repo's action
+    name: Run the action with ignored branches
     steps:
       - name: Checkout
         uses: actions/checkout@v2

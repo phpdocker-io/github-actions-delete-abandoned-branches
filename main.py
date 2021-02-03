@@ -20,7 +20,7 @@ def parse_input() -> (list, int):
     branch_last_commit = int(args[2])
 
     # Dry run can only be either `true` or `false`, as strings due to github actions input limitations
-    is_dry_run = True if args[3] == 'yes' else False
+    is_dry_run = False if args[3] == 'no' else True
 
     return branches_parsed, branch_last_commit, is_dry_run
 
