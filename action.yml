@@ -4,9 +4,9 @@ description: |
   Delete old branches from the system as long as they aren't part of an open pull request, or protected.
 inputs:
   ignore_branches:
-    description: Branches to ignore and never delete. You don't need to add your protected branches here.
+    description: Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here.
     required: false
-    default: [ ]
+    default: ""
   last_commit_age_days:
     description: Select for deletion branches with a last commit older than this parameter.
     required: false
