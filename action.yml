@@ -1,16 +1,22 @@
 # action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Delete old branches'
+description: |
+  Delete old branches from the system as long as they aren't part of an open pull request, or protected.
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
+  ignore_branches:
+    description: Branches to ignore and never delete. You don't need to add your protected branches here.
+    required: false
+    default: [ ]
+  last_commit_age_days:
+    description: Select for deletion branches with a last commit older than this parameter.
+    required: false
+    default: 60
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  deleted_branches: # id of output
+    description: 'Branches that have been deleted, if any'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.ignore_branches }}
+    - ${{ inputs.last_commit_age_days }}

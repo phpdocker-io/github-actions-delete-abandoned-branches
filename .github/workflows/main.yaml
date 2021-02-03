@@ -8,8 +8,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Run our action
         uses: ./
-        id: yes
+        id: delete_stuff
         with:
-          who-to-greet: covfefe
+          last_commit_age_days: 9
       - name: Get output
-        run:  echo "The time was ${{ steps.hello.outputs.time }}"
+        run:  echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"
