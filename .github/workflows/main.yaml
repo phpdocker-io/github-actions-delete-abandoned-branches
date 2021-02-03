@@ -4,6 +4,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Yes
     steps:
+      - name: Docker Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: $GITHUB_ACTOR
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run our action
