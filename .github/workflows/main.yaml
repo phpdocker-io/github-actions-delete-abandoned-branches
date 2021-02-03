@@ -10,8 +10,8 @@ jobs:
         uses: ./
         id: delete_stuff
         with:
+          dry_run: yes
           ignore_branches: foo,bar
           last_commit_age_days: 9
-          dry_run: yes
       - name: Get output
         run: echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"
