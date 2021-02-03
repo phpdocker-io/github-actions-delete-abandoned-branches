@@ -1,8 +1,8 @@
-on: [push]
+on: [ push ]
 jobs:
-  hello_world:
+  run_our_action:
     runs-on: ubuntu-latest
-    name: Yes
+    name: Runs this repo's action
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -11,5 +11,6 @@ jobs:
         id: delete_stuff
         with:
           last_commit_age_days: 9
+          dry_run: true
       - name: Get output
-        run:  echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"
+        run: echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"

@@ -1,8 +1,8 @@
 from src import github
 
 
-def run_action(ignore_branches: list, last_commit_age_days: int) -> bool:
-    print(f'ignore_branches: {ignore_branches}, last_commit_age_days: {last_commit_age_days}')
+def run_action(ignore_branches: list, last_commit_age_days: int, dry_run: bool) -> bool:
+    print(f'ignore_branches: {ignore_branches}, last_commit_age_days: {last_commit_age_days}, dry_run: {dry_run}')
 
     deleted_branches: list = ['foo']
     github.get_open_prs()

@@ -11,9 +11,14 @@ inputs:
     description: Select for deletion branches with a last commit older than this parameter.
     required: false
     default: 60
+  dry_run:
+    description: "Whether we're actually deleting branches at all. Defaults to 'false'. Possible values: true, false (case sensitive)"
+    required: true
+
 outputs:
   deleted_branches: # id of output
     description: 'Branches that have been deleted, if any'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
