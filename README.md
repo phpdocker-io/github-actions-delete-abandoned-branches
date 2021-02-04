@@ -45,8 +45,12 @@ days:
 name: Delete abandoned branches
 
 on:
+  # Run daily at midnight
   schedule:
     - cron: "0 0 * * *"
+
+  # Allow workflow to be manually run from the GitHub UI
+  workflow_dispatch:
 
 jobs:
   check_dry_run_no_branches:
