@@ -54,8 +54,6 @@ on:
         description: 'Log level'
         required: true
         default: 'warning'
-      tags:
-        description: 'Test scenario tags'
 
 jobs:
   check_dry_run_no_branches:
