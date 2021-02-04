@@ -16,6 +16,9 @@ class Github:
         headers = self.make_headers()
 
         response = requests.get(url=url, headers=headers, force_debug=True)
+        if response.status_code != 200:
+            raise RuntimeError(f'Failed to make request to {url}. {response} {response.json()}')
+
         print(response.json())
 
         return []
