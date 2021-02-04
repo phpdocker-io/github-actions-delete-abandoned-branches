@@ -1,7 +1,7 @@
 # action.yml
 name: 'Delete abandoned branches'
 description: |
-  Deletes old branches from your repository as long as they aren't part of an open pull request, the default branch, or protected.
+  Deletes old branches from your repo as long as they aren't part of an open pull request, the default branch, or protected.
 author: Luis Pabon (PHPDocker.io)
 branding:
   icon: git-branch
