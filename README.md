@@ -21,7 +21,7 @@ A branch must meet all the following criteria to be deemed abandoned and safe to
 
 ## Inputs
 
-* mandatory
+`* mandatory`
 
 | Name  | Description | Example |
 | ------------- | ------------- | ------------- |
