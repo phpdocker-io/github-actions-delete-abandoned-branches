@@ -27,8 +27,8 @@ A branch must meet all the following criteria to be deemed abandoned and safe to
 | ------------- | ------------- | ------------- |
 | `ignore_branches`  | Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here.  | `foo,bar`
 | `last_commit_age_days` | How old in days must be the last commit into the branch for the branch to be deleted. Default: `60` | 90
-| `dry_run` | Whether we're actually deleting branches at all. Possible values: `yes, no` (case sensitive). Default: `yes` | `no`
-| `github_token` | The github token to use on requests to the github api. You can use the one github actions provide | `${{ github.token }}`
+| `dry_run`* | Whether we're actually deleting branches at all. Possible values: `yes, no` (case sensitive). Default: `yes` | `no`
+| `github_token`* | The github token to use on requests to the github api. You can use the one github actions provide | `${{ github.token }}`
 
 ### Note: dry run
 
