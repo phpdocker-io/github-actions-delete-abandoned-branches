@@ -1,5 +1,18 @@
-import requests
+from src import requests
+
+GH_BASE_URL = "https://api.github.com"
 
 
-def get_open_prs():
-    print(requests.get('https://google.com').raw)
+class Github:
+    def __init__(self, github_repo: str, github_token: str):
+        self.github_token = github_token
+        self.github_repo = github_repo
+
+    def make_headers(self) -> dict:
+        return {'authorization': f'Bearer: {self.github_token}'}
+
+    def get_deletable_branches(self) -> list:
+        response = requests.get(f'{GH_BASE_URL}/repos/{self.github_repo}/branches')
+        print(response.json())
+
+        return []

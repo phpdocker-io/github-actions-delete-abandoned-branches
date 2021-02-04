@@ -14,6 +14,9 @@ inputs:
   dry_run:
     description: "Whether we're actually deleting branches at all. Defaults to 'yes'. Possible values: yes, no (case sensitive)"
     required: true
+  gh_token:
+    description: "The github token to use on requests to the github api"
+    required: true
 
 outputs:
   deleted_branches: # id of output
@@ -26,3 +29,4 @@ runs:
     - ${{ inputs.ignore_branches }}
     - ${{ inputs.last_commit_age_days }}
     - ${{ inputs.dry_run }}
+    - ${{ secrets.GITHUB_TOKEN }}
