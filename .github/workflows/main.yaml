@@ -13,7 +13,7 @@ jobs:
         with:
           github_token: ${{ github.token }}
           last_commit_age_days: 9
-          dry_run: yes
+          dry_run: no
 
       - name: Get output
         run: "echo 'Deleted branches: ${{ steps.delete_stuff.outputs.deleted_branches }}'"
