@@ -4,7 +4,8 @@ Github action to delete abandoned branches.
 
 ## Warning
 
-This action WILL delete branches from your repository, so you need to make your due diligence when choosing to use it and with which settings. I am not responsible for any mishaps that might occur.
+This action WILL delete branches from your repository, so you need to make your due diligence when choosing to use it
+and with which settings. I am not responsible for any mishaps that might occur.
 
 ## Abandoned branches
 
@@ -13,7 +14,8 @@ A branch must meet all the following criteria to be deemed abandoned and safe to
 * Must NOT be the default branch (eg `master` or `main`, depending on your repository settings)
 * Must NOT be a protected branch
 * Must NOT have any open pull requests
-* Must NOT be the base of an open pull request of another branch. The base of a pull request is the branch you told GitHub you want to merge your pull request into.
+* Must NOT be the base of an open pull request of another branch. The base of a pull request is the branch you told
+  GitHub you want to merge your pull request into.
 * Must NOT be in an optional list of branches to ignore
 * Must be older than a given amount of days
 
@@ -30,18 +32,21 @@ A branch must meet all the following criteria to be deemed abandoned and safe to
 
 ### Note: dry run
 
-By default, the action will only perform a dry run. It will go in, gather all branches that qualify for deletion and give you the list on the actions' output, but without actually deleting anything. Make sure you configure your stuff correctly before setting `dry_run` to `yes`
+By default, the action will only perform a dry run. It will go in, gather all branches that qualify for deletion and
+give you the list on the actions' output, but without actually deleting anything. Make sure you configure your stuff
+correctly before setting `dry_run` to `yes`
 
 ## Example
 
-The following workflow will run on a schedule (daily at 00:00) and will delete all abandoned branches older than 100 days:
+The following workflow will run on a schedule (daily at 00:00) and will delete all abandoned branches older than 100
+days:
 
 ```yaml
 name: Delete abandoned branches
 
 on:
   schedule:
-  - cron: "0 * * * *"
+    - cron: "0 * * * *"
 
   workflow_dispatch:
     inputs:
@@ -66,7 +71,9 @@ jobs:
         with:
           github_token: ${{ github.token }}
           last_commit_age_days: 100
-          dry_run: yes
+
+          # Disable dry run and actually get stuff deleted
+          dry_run: no
 
       - name: Get output
         run: "echo 'Deleted branches: ${{ steps.delete_stuff.outputs.deleted_branches }}'"
