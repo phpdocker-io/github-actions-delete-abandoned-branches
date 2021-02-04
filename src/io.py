@@ -12,20 +12,20 @@ def parse_input() -> (list, int):
         raise RuntimeError(f'Incorrect input: {input_string}. Expected: {expected_string}')
 
     branches_raw: str = args[1]
-    branches_parsed = branches_raw.split(',')
-    if branches_parsed == ['']:
-        branches_parsed = []
+    ignore_branches = branches_raw.split(',')
+    if ignore_branches == ['']:
+        ignore_branches = []
 
-    branch_last_commit = int(args[2])
+    last_commit_age_days = int(args[2])
 
     # Dry run can only be either `true` or `false`, as strings due to github actions input limitations
-    is_dry_run = False if args[3] == 'no' else True
+    dry_run = False if args[3] == 'no' else True
 
     github_token = args[4]
 
     github_repo = getenv('GITHUB_REPOSITORY')
 
-    return branches_parsed, branch_last_commit, is_dry_run, github_token, github_repo
+    return ignore_branches, last_commit_age_days, dry_run, github_token, github_repo
 
 
 def format_output(output_strings: dict) -> None:
