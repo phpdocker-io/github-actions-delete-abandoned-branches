@@ -62,7 +62,7 @@ class Github:
         return response.json().get('default_branch')
 
     def has_open_pulls(self, commit_hash: str) -> bool:
-        url = f'{GH_BASE_URL} /repos/{self.github_repo}/commits/{commit_hash}/pulls'
+        url = f'{GH_BASE_URL}/repos/{self.github_repo}/commits/{commit_hash}/pulls'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 
