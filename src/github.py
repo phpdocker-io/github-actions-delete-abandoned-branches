@@ -115,6 +115,6 @@ class Github:
         commit_date = datetime.strptime(commit_date_raw, "%Y-%m-%dT%H:%M:%SZ")
 
         delta = datetime.now() - commit_date
-        print(f'Last commit was on {commit_date_raw} ({delta} {delta.days} days ago)')
+        print(f'Last commit was on {commit_date_raw} ({delta.days} days ago)')
 
         return delta.days > older_than_days
