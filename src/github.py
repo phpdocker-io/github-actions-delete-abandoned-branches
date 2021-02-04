@@ -15,7 +15,7 @@ class Github:
         url = f'{GH_BASE_URL}/repos/{self.github_repo}/branches'
         headers = self.make_headers()
 
-        response = requests.get(url=url, headers=headers)
+        response = requests.get(url=url, headers=headers, force_debug=True)
         print(response.json())
 
         return []
