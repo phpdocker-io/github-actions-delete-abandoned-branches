@@ -74,12 +74,15 @@ class Github:
 
     def delete_branches(self, branches: list) -> None:
         for branch in branches:
+            print(f'Deleting branch `{branch}`...')
             url = f'{GH_BASE_URL}/repos/{self.github_repo}/git/refs/heads/{branch}'
 
             response = requests.request(method='DELETE', url=url, headers=self.make_headers())
             if response.status_code != 204:
                 print(f'Failed to delete branch `{branch}`')
                 raise RuntimeError(f'Failed to make DELETE request to {url}. {response} {response.json()}')
+
+            print(f'Branch `{branch}` DELETED!')
 
     def get_default_branch(self) -> str:
         url = f'{GH_BASE_URL}/repos/{self.github_repo}'
