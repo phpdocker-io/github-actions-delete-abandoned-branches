@@ -2,14 +2,6 @@ import requests
 from requests.models import Response
 
 
-def post(url: str, json: dict = None, headers: dict = None, force_debug: bool = False) -> Response:
-    return request(method='post', url=url, json=json, headers=headers, force_debug=force_debug)
-
-
-def patch(url: str, json: dict = None, headers: dict = None, force_debug: bool = False) -> Response:
-    return request(method='patch', url=url, json=json, headers=headers, force_debug=force_debug)
-
-
 def get(url: str, force_debug: bool = False, headers: dict = None) -> Response:
     return request(method='get', url=url, headers=headers, force_debug=force_debug)
 
