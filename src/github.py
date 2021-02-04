@@ -16,6 +16,9 @@ class Github:
             'content-type': 'application/vnd.github.v3+json',
         }
 
+    def get_branch_ref(self, github_event_path: str):
+        print(f'Event path {github_event_path}')
+
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
         # Default branch might not be protected
         default_branch = self.get_default_branch()
@@ -50,8 +53,8 @@ class Github:
                 print(f'Ignoring branch `{branch_name}` because it is on the list of ignored branches')
                 continue
 
-            # Move on if commit is in an open pull request
-            if self.has_open_pulls(commit_hash=commit_hash):
+            # Move on if commit is in an open pull request or branch is base for a pull request
+            if self.has_open_pulls_or_is_base(commit_hash=commit_hash, branch=branch_name):
                 print(f'Ignoring branch `{branch_name}` because it has open pulls')
                 continue
 
@@ -84,8 +87,11 @@ class Github:
 
         return response.json().get('default_branch')
 
-    def has_open_pulls(self, commit_hash: str) -> bool:
-        url = f'{GH_BASE_URL}/repos/{self.github_repo}/commits/{commit_hash}/pulls'
+    def has_open_pulls_or_is_base(self, commit_hash: str, branch: str) -> bool:
+        """
+        Returns true if commit is part of an open pull request or the branch is the base for a pull request
+        """
+        url = f'{GH_BASE_URL}/repos/{self.github_repo}/commits/{commit_hash}/pulls?state=open&base=${branch}'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 

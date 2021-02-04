@@ -6,6 +6,7 @@ def run_action(
         ignore_branches: list,
         last_commit_age_days: int,
         github_token: str,
+        github_event_path: str,
         dry_run: bool = True
 ) -> list:
     print({
@@ -17,7 +18,7 @@ def run_action(
 
     github = Github(github_repo=github_repo, github_token=github_token)
 
-    deleted_branches: list = ['foo']
+    ref = github.get_branch_ref(github_event_path)
     branches = github.get_deletable_branches(last_commit_age_days=last_commit_age_days, ignore_branches=ignore_branches)
 
     print(f"Branches queued for deletion: {branches}")
@@ -27,4 +28,4 @@ def run_action(
     else:
         print('This is a dry run, skipping deletion of branches')
 
-    return deleted_branches
+    return []
