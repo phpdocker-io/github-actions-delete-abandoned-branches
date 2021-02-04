@@ -71,6 +71,7 @@ jobs:
         with:
           github_token: ${{ github.token }}
           last_commit_age_days: 100
+          ignore_branches: next-version,dont-deleteme
 
           # Disable dry run and actually get stuff deleted
           dry_run: no
