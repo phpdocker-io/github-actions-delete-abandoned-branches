@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from src import requests
 
@@ -60,6 +60,7 @@ class Github:
                 print(f'Ignoring branch `{branch_name}` because last commit is newer than {last_commit_age_days}')
                 continue
 
+            print(f'Branch `{branch_name}` meets the criteria for deletion')
             deletable_branches.append(branch_name)
 
         print(deletable_branches)
@@ -113,4 +114,7 @@ class Github:
         # Dates are formatted like so: '2021-02-04T10:52:40Z'
         commit_date = datetime.strptime(commit_date_raw, "%Y-%m-%dT%H:%M:%SZ")
 
-        return datetime.now() > (commit_date + timedelta(days=older_than_days))
+        delta = datetime.now() - commit_date
+        print(f'Last commit was on {commit_date_raw} ({delta} {delta.days} days ago)')
+
+        return delta.days > older_than_days
