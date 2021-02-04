@@ -1,4 +1,4 @@
-# delete-abandoned-branches
+# Delete abandoned branches
 
 Github action to delete abandoned branches.
 
