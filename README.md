@@ -48,13 +48,6 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-
 jobs:
   check_dry_run_no_branches:
     runs-on: ubuntu-latest
