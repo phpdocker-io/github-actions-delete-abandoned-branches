@@ -53,7 +53,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check_dry_run_no_branches:
+  cleanup_old_branches:
     runs-on: ubuntu-latest
     name: Runs the action with no ignore branches
     steps:
