@@ -8,12 +8,14 @@ def run_action(
         github_token: str,
         dry_run: bool = True
 ) -> list:
-    print({
+    input_data = {
         'github_repo': github_repo,
         'ignore_branches': ignore_branches,
         'last_commit_age_days': last_commit_age_days,
         'dry_run': dry_run,
-    })
+    }
+
+    print(f"Starting github action to cleanup old branches. Input: {input_data}")
 
     github = Github(github_repo=github_repo, github_token=github_token)
 
