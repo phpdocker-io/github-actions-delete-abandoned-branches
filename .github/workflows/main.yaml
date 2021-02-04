@@ -1,3 +1,5 @@
+name: Quick tests against our own repository
+
 on: [ push ]
 jobs:
   check_dry_run_no_branches:
@@ -13,7 +15,7 @@ jobs:
         with:
           github_token: ${{ github.token }}
           last_commit_age_days: 9
-          dry_run: no
+          dry_run: yes
 
       - name: Get output
         run: "echo 'Deleted branches: ${{ steps.delete_stuff.outputs.deleted_branches }}'"
