@@ -1,7 +1,12 @@
 # action.yml
-name: 'Delete old branches'
+name: 'Delete abandoned branches'
 description: |
-  Delete old branches from the system as long as they aren't part of an open pull request, or protected.
+  Deletes old branches from your repository as long as they aren't part of an open pull request (including being the base of one), the default branch, or protected.
+author: Luis Pabon (PHPDocker.io)
+branding:
+  icon: git-branch
+  color: orange
+
 inputs:
   ignore_branches:
     description: Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here.
