@@ -56,7 +56,7 @@ class Github:
                 continue
 
             # Move on if last commit is newer than last_commit_age_days
-            if self.is_commit_older_than(commit_url=commit_url, older_than_days=last_commit_age_days):
+            if self.is_commit_older_than(commit_url=commit_url, older_than_days=last_commit_age_days) is False:
                 print(f'Ignoring branch `{branch_name}` because last commit is newer than {last_commit_age_days}')
                 continue
 
