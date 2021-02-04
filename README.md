@@ -55,7 +55,7 @@ on:
 jobs:
   cleanup_old_branches:
     runs-on: ubuntu-latest
-    name: Runs the action with no ignore branches
+    name: Satisfy my repo CDO
     steps:
       - name: Delete those pesky dead branches
         uses: phpdocker-io/github-actions-delete-abandoned-branches@0.3
