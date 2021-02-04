@@ -11,6 +11,7 @@ jobs:
         uses: ./
         id: delete_stuff
         with:
+          github_token: ${{ github.token }}
           last_commit_age_days: 9
 
       - name: Get output
