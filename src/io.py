@@ -3,7 +3,7 @@ from os import getenv
 from typing import List
 
 
-def parse_input() -> (list, int):
+def parse_input() -> (list, int, bool, str, str):
     args: List[str] = sys.argv
 
     if len(args) != 5:
