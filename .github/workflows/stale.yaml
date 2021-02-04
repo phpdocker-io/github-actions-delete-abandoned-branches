@@ -1,0 +1,29 @@
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+  - cron: "0 * * * *"
+
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/stale@v3
+      with:
+        stale-issue-message: 'Marking issue as stale'
+        stale-pr-message: 'Marking PR as stale'
+        stale-issue-label: 'stale'
+        stale-pr-label: 'stale'
+        days-before-stale: 30
+        days-before-close: 7
