@@ -15,8 +15,6 @@ def run_action(
         'dry_run': dry_run,
     })
 
-    print(github_token)
-
     github = Github(github_repo=github_repo, github_token=github_token)
 
     deleted_branches: list = ['foo']

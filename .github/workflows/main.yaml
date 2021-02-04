@@ -6,27 +6,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Run our action
-        uses: ./
-        id: delete_stuff
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          last_commit_age_days: 9
-      - name: Get output
-        run: echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"
 
-  check_dry_run_with_branches:
-    runs-on: ubuntu-latest
-    name: Run the action with ignored branches
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Run our action
         uses: ./
         id: delete_stuff
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           last_commit_age_days: 9
-          ignore_branches: foo,bar
+
       - name: Get output
         run: echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"

@@ -9,7 +9,10 @@ class Github:
         self.github_repo = github_repo
 
     def make_headers(self) -> dict:
-        return {'authorization': f'Bearer: {self.github_token}'}
+        return {
+            'authorization': f'Bearer {self.github_token}',
+            'content-type': 'application/json',
+        }
 
     def get_deletable_branches(self) -> list:
         url = f'{GH_BASE_URL}/repos/{self.github_repo}/branches'
