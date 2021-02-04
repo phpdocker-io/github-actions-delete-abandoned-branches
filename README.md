@@ -62,9 +62,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Runs the action with no ignore branches
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Delete those pesky dead branches
         uses: phpdocker-io/github-actions-delete-abandoned-branches@0.2
         id: delete_stuff
