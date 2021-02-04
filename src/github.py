@@ -13,7 +13,7 @@ class Github:
     def make_headers(self) -> dict:
         return {
             'authorization': f'Bearer {self.github_token}',
-            'content-type': 'application/json',
+            'content-type': 'application/vnd.github.v3+json',
         }
 
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
@@ -57,7 +57,7 @@ class Github:
 
             # Move on if last commit is newer than last_commit_age_days
             if self.is_commit_older_than(commit_url=commit_url, older_than_days=last_commit_age_days) is False:
-                print(f'Ignoring branch `{branch_name}` because last commit is newer than {last_commit_age_days}')
+                print(f'Ignoring branch `{branch_name}` because last commit is newer than {last_commit_age_days} days')
                 continue
 
             print(f'Branch `{branch_name}` meets the criteria for deletion')
@@ -68,7 +68,13 @@ class Github:
         return deletable_branches
 
     def delete_branches(self, branches: list) -> None:
-        pass
+        for branch in branches:
+            url = f'{GH_BASE_URL}/repos/{self.github_repo}/refs/{branch}'
+
+            response = requests.request(method='DELETE', url=url, headers=self.make_headers())
+            if response.status_code != 204:
+                print(f'Failed to delete branch `{branch}`')
+                raise RuntimeError(f'Failed to make DELETE request to {url}. {response} {response.json()}')
 
     def get_default_branch(self) -> str:
         url = f'{GH_BASE_URL}/repos/{self.github_repo}'

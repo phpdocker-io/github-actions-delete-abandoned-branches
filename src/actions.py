@@ -22,8 +22,9 @@ def run_action(
 
     print(f"Branches queued for deletion: {branches}")
     if dry_run is False:
+        print('This is NOT a dry run, deleting branches')
         github.delete_branches(branches=branches)
-
-    print(branches)
+    else:
+        print('This is a dry run, skipping deletion of branches')
 
     return deleted_branches
