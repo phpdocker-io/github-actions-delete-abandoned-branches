@@ -14,7 +14,7 @@ inputs:
   dry_run:
     description: "Whether we're actually deleting branches at all. Defaults to 'yes'. Possible values: yes, no (case sensitive)"
     required: true
-  gh_token:
+  github_token:
     description: "The github token to use on requests to the github api"
     required: true
 
