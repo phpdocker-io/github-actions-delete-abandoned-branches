@@ -51,8 +51,13 @@ class Github:
                 continue
 
             # Move on if commit is in an open pull request or branch is base for a pull request
-            if self.has_open_pulls_or_is_base(commit_hash=commit_hash, branch=branch_name):
+            if self.has_open_pulls(commit_hash=commit_hash):
                 print(f'Ignoring branch `{branch_name}` because it has open pulls')
+                continue
+
+            # Move on if commit is in an open pull request or branch is base for a pull request
+            if self.is_pull_request_base(branch=branch_name):
+                print(f'Ignoring branch `{branch_name}` because it is the base for a pull request of another branch')
                 continue
 
             # Move on if last commit is newer than last_commit_age_days
@@ -84,11 +89,11 @@ class Github:
 
         return response.json().get('default_branch')
 
-    def has_open_pulls_or_is_base(self, commit_hash: str, branch: str) -> bool:
+    def has_open_pulls(self, commit_hash: str) -> bool:
         """
         Returns true if commit is part of an open pull request or the branch is the base for a pull request
         """
-        url = f'{GH_BASE_URL}/repos/{self.github_repo}/commits/{commit_hash}/pulls?state=open&base=refs/heads/{branch}'
+        url = f'{GH_BASE_URL}/repos/{self.github_repo}/commits/{commit_hash}/pulls'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 
@@ -102,6 +107,20 @@ class Github:
                 return True
 
         return False
+
+    def is_pull_request_base(self, branch: str) -> bool:
+        """
+        Returns true if the given branch is base for another pull request.
+        """
+        url = f'{GH_BASE_URL}/repos/{self.github_repo}/pulls?base={branch}'
+        headers = self.make_headers()
+        headers['accept'] = 'application/vnd.github.groot-preview+json'
+
+        response = requests.get(url=url, headers=headers)
+        if response.status_code != 200:
+            raise RuntimeError(f'Failed to make request to {url}. {response} {response.json()}')
+
+        return len(response.json()) > 0
 
     def is_commit_older_than(self, commit_url: str, older_than_days: int):
         response = requests.get(url=commit_url, headers=self.make_headers())
