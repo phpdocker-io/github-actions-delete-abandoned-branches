@@ -63,7 +63,7 @@ jobs:
     name: Runs the action with no ignore branches
     steps:
       - name: Delete those pesky dead branches
-        uses: phpdocker-io/github-actions-delete-abandoned-branches@0.2
+        uses: phpdocker-io/github-actions-delete-abandoned-branches@0.3
         id: delete_stuff
         with:
           github_token: ${{ github.token }}
