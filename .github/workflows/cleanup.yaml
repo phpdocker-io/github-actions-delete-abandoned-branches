@@ -1,29 +1,30 @@
-name: Mark stale issues and pull requests
+name: Repo cleanup (old PRs, branches and issues)
 
 on:
   schedule:
-  - cron: "0 * * * *"
+    - cron: "0 0 * * *"
 
+  # Allow workflow to be manually run from the GitHub UI
   workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'
 
 jobs:
-  stale:
-
+  cleanup-repository:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/stale@v3
-      with:
-        stale-issue-message: 'Marking issue as stale'
-        stale-pr-message: 'Marking PR as stale'
-        stale-issue-label: 'stale'
-        stale-pr-label: 'stale'
-        days-before-stale: 30
-        days-before-close: 7
+
+      # Mark issues and PRs with no activity as stale after a while, and close them after a while longer
+      - uses: actions/stale@v3
+        with:
+          stale-issue-message: 'Marking issue as stale'
+          stale-pr-message: 'Marking PR as stale'
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          days-before-stale: 30
+          days-before-close: 7
+
+      - uses: phpdocker-io/github-actions-delete-abandoned-branches@0.3
+        with:
+          github_token: ${{ github.token }}
+          last_commit_age_days: 100
+          dry_run: yes
