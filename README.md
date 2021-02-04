@@ -37,7 +37,7 @@ By default, the action will only perform a dry run. It will go in, gather all br
 The following workflow will run on a schedule (daily at 00:00) and will delete all abandoned branches older than 100 days:
 
 ```yaml
-name: Quick tests against our own repository
+name: Delete abandoned branches
 
 on:
   schedule:
