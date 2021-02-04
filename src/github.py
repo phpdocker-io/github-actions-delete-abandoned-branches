@@ -16,9 +16,6 @@ class Github:
             'content-type': 'application/vnd.github.v3+json',
         }
 
-    def get_branch_ref(self, github_event_path: str):
-        print(f'Event path {github_event_path}')
-
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
         # Default branch might not be protected
         default_branch = self.get_default_branch()
@@ -72,7 +69,7 @@ class Github:
 
     def delete_branches(self, branches: list) -> None:
         for branch in branches:
-            url = f'{GH_BASE_URL}/repos/{self.github_repo}/refs/{branch}'
+            url = f'{GH_BASE_URL}/repos/{self.github_repo}/git/refs/heads/{branch}'
 
             response = requests.request(method='DELETE', url=url, headers=self.make_headers())
             if response.status_code != 204:

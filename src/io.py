@@ -24,9 +24,8 @@ def parse_input() -> (list, int):
     github_token = args[4]
 
     github_repo = getenv('GITHUB_REPOSITORY')
-    github_event_path = getenv('GITHUB_EVENT_PATH')
 
-    return branches_parsed, branch_last_commit, is_dry_run, github_token, github_repo, github_event_path
+    return branches_parsed, branch_last_commit, is_dry_run, github_token, github_repo
 
 
 def format_output(output_strings: dict) -> None:
