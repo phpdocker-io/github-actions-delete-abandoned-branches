@@ -12,7 +12,10 @@ class Github:
         return {'authorization': f'Bearer: {self.github_token}'}
 
     def get_deletable_branches(self) -> list:
-        response = requests.get(f'{GH_BASE_URL}/repos/{self.github_repo}/branches')
+        url = f'{GH_BASE_URL}/repos/{self.github_repo}/branches'
+        headers = self.make_headers()
+
+        response = requests.get(url=url, headers=headers)
         print(response.json())
 
         return []
