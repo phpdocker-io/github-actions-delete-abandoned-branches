@@ -66,7 +66,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Delete those pesky dead branches
-        uses: phpdocker-io/github-actions-delete-abandoned-branches
+        uses: phpdocker-io/github-actions-delete-abandoned-branches@0.2
         id: delete_stuff
         with:
           github_token: ${{ github.token }}
