@@ -26,4 +26,4 @@ def run_action(
     else:
         print('This is a dry run, skipping deletion of branches')
 
-    return []
+    return branches

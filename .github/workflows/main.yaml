@@ -16,4 +16,4 @@ jobs:
           dry_run: yes
 
       - name: Get output
-        run: echo "The time was ${{ steps.delete_stuff.outputs.deleted_branches }}"
+        run: "echo 'Deleted branches: ${{ steps.delete_stuff.outputs.deleted_branches }}'"
