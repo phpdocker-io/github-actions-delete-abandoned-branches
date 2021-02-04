@@ -13,7 +13,7 @@ inputs:
     required: false
     default: ""
   last_commit_age_days:
-    description: "Select for deletion branches with a last commit older than this parameter."
+    description: "How old in days must be the last commit into the branch for the branch to be deleted."
     required: false
     default: "60"
   dry_run:
