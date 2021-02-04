@@ -35,16 +35,29 @@ class Github:
             commit_hash = branch.get('commit', {}).get('sha')
             commit_url = branch.get('commit', {}).get('url')
 
+            print(f'Analyzing branch `{branch_name}`...')
+
             # Immediately discard protected branches, default branch and ignored branches
-            if branch.get('protected') is True or branch_name == default_branch or branch_name in ignore_branches:
+            if branch.get('protected') is True:
+                print(f'Ignoring branch `{branch_name}` because it is protected')
+                continue
+
+            if branch_name == default_branch:
+                print(f'Ignoring branch `{branch_name}` because it is the default branch')
+                continue
+
+            if branch_name in ignore_branches:
+                print(f'Ignoring branch `{branch_name}` because it is on the list of ignored branches')
                 continue
 
             # Move on if commit is in an open pull request
             if self.has_open_pulls(commit_hash=commit_hash):
+                print(f'Ignoring branch `{branch_name}` because it has open pulls')
                 continue
 
             # Move on if last commit is newer than last_commit_age_days
             if self.is_commit_older_than(commit_url=commit_url, older_than_days=last_commit_age_days):
+                print(f'Ignoring branch `{branch_name}` because last commit is newer than {last_commit_age_days}')
                 continue
 
             deletable_branches.append(branch_name)
@@ -52,6 +65,9 @@ class Github:
         print(deletable_branches)
 
         return deletable_branches
+
+    def delete_branches(self, branches: list) -> None:
+        pass
 
     def get_default_branch(self) -> str:
         url = f'{GH_BASE_URL}/repos/{self.github_repo}'

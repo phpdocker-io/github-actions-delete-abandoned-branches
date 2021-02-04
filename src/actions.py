@@ -20,6 +20,10 @@ def run_action(
     deleted_branches: list = ['foo']
     branches = github.get_deletable_branches(last_commit_age_days=last_commit_age_days, ignore_branches=ignore_branches)
 
+    print(f"Branches queued for deletion: {branches}")
+    if dry_run is False:
+        github.delete_branches(branches=branches)
+
     print(branches)
 
     return deleted_branches
