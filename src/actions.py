@@ -18,7 +18,7 @@ def run_action(
     github = Github(github_repo=github_repo, github_token=github_token)
 
     deleted_branches: list = ['foo']
-    branches = github.get_deletable_branches()
+    branches = github.get_deletable_branches(last_commit_age_days=last_commit_age_days, ignore_branches=ignore_branches)
 
     print(branches)
 
