@@ -1,5 +1,3 @@
-from os import environ as env
-
 import requests
 from requests.models import Response
 
@@ -19,11 +17,12 @@ def get(url: str, force_debug: bool = False, headers: dict = None) -> Response:
 def request(method: str, url: str, json: dict = None, headers: dict = None, force_debug: bool = False) -> Response:
     try:
         response = requests.request(method=method, url=url, json=json, headers=headers)
-        debug_request(url, method, response, json, headers, force_debug)
+        if force_debug:
+            debug_request(url, method, response, json, headers)
 
         return response
     except Exception as ex:
-        debug_request(url, method, None, json, headers, force_debug)
+        debug_request(url, method, None, json, headers)
         raise ex
 
 
@@ -33,18 +32,13 @@ def debug_request(
         response: Response = None,
         payload: dict = None,
         headers: dict = None,
-        force: bool = False
 ) -> None:
-    """
-    Set CI_DEBUG env var to anything if you want to debug requests made. Otherwise unset.
-    """
-    if force or env.get('CI_DEBUG') is not None:
-        print('#########################')
-        print(f'Debugging request to {url}')
-        print(f'Method: {method}')
-        print(f'Payload: {payload}')
-        print(f'Headers: {headers}')
-        if response is not None:
-            print(f'Response: {response}')
-            print(response.json())
-        print('#########################')
+    print('#########################')
+    print(f'Debugging request to {url}')
+    print(f'Method: {method}')
+    print(f'Payload: {payload}')
+    print(f'Headers: {headers}')
+    if response is not None:
+        print(f'Response: {response}')
+        print(response.json())
+    print('#########################')

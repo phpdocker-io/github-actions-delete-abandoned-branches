@@ -23,7 +23,7 @@ class Github:
         url = f'{GH_BASE_URL}/repos/{self.github_repo}/branches'
         headers = self.make_headers()
 
-        response = requests.get(url=url, headers=headers, force_debug=True)
+        response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
             raise RuntimeError(f'Failed to make request to {url}. {response} {response.json()}')
 
@@ -73,7 +73,7 @@ class Github:
         url = f'{GH_BASE_URL}/repos/{self.github_repo}'
         headers = self.make_headers()
 
-        response = requests.get(url=url, headers=headers, force_debug=True)
+        response = requests.get(url=url, headers=headers)
 
         return response.json().get('default_branch')
 
@@ -82,7 +82,7 @@ class Github:
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 
-        response = requests.get(url=url, headers=headers, force_debug=True)
+        response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
             raise RuntimeError(f'Failed to make request to {url}. {response} {response.json()}')
 
@@ -94,7 +94,7 @@ class Github:
         return False
 
     def is_commit_older_than(self, commit_url: str, older_than_days: int):
-        response = requests.get(url=commit_url, headers=self.make_headers(), force_debug=True)
+        response = requests.get(url=commit_url, headers=self.make_headers())
         if response.status_code != 200:
             raise RuntimeError(f'Failed to make request to {commit_url}. {response} {response.json()}')
 
