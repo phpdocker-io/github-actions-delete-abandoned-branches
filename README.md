@@ -46,7 +46,7 @@ name: Delete abandoned branches
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 0 * * *"
 
   workflow_dispatch:
     inputs:
