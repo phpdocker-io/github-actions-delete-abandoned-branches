@@ -22,6 +22,10 @@ inputs:
   github_token:
     description: "The github token to use on requests to the github api"
     required: true
+  runtime:
+    description: "This is for development of this action only. Allows us to specify an alternative image to run this action in"
+    required: true
+    default: 'phpdockerio/github-actions-delete-abandoned-branches:latest'
 
 outputs:
   deleted_branches: # id of output
@@ -29,7 +33,7 @@ outputs:
 
 runs:
   using: 'docker'
-  image: 'phpdockerio/github-actions-delete-abandoned-branches:latest'
+  image: ${{ inputs.runtime }}
   args:
     - ${{ inputs.ignore_branches }}
     - ${{ inputs.last_commit_age_days }}

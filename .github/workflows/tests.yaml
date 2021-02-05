@@ -13,6 +13,7 @@ jobs:
         uses: ./
         id: delete_stuff
         with:
+          runtime: Dockerfile
           github_token: ${{ github.token }}
           last_commit_age_days: 9
           dry_run: yes
