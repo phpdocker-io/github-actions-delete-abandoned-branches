@@ -58,7 +58,7 @@ jobs:
     name: Satisfy my repo CDO
     steps:
       - name: Delete those pesky dead branches
-        uses: phpdocker-io/github-actions-delete-abandoned-branches@0.3
+        uses: phpdocker-io/github-actions-delete-abandoned-branches@1
         id: delete_stuff
         with:
           github_token: ${{ github.token }}
