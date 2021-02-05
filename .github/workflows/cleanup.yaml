@@ -23,7 +23,7 @@ jobs:
           days-before-stale: 30
           days-before-close: 7
 
-      - uses: phpdocker-io/github-actions-delete-abandoned-branches@1
+      - uses: phpdocker-io/github-actions-delete-abandoned-branches@1.*
         with:
           github_token: ${{ github.token }}
           last_commit_age_days: 100
