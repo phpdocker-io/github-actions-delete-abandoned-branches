@@ -26,7 +26,7 @@ A branch must meet all the following criteria to be deemed abandoned and safe to
 | Name  | Description | Example |
 | ------------- | ------------- | ------------- |
 | `ignore_branches`  | Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here.  | `foo,bar`
-| `last_commit_age_days` | How old in days must be the last commit into the branch for the branch to be deleted. Default: `60` | 90
+| `last_commit_age_days` | How old in days must be the last commit into the branch for the branch to be deleted. Default: `60` | `90`
 | `dry_run`* | Whether we're actually deleting branches at all. Possible values: `yes, no` (case sensitive). Default: `yes` | `no`
 | `github_token`* | The github token to use on requests to the github api. You can use the one github actions provide | `${{ github.token }}`
 
@@ -34,7 +34,7 @@ A branch must meet all the following criteria to be deemed abandoned and safe to
 
 By default, the action will only perform a dry run. It will go in, gather all branches that qualify for deletion and
 give you the list on the actions' output, but without actually deleting anything. Make sure you configure your stuff
-correctly before setting `dry_run` to `yes`
+correctly before setting `dry_run` to `no`
 
 ## Example
 
