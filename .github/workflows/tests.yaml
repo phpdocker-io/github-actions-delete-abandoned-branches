@@ -1,6 +1,10 @@
 name: Quick tests against our own repository
 
-on: [ push ]
+on:
+  push:
+
+  # Allow workflow to be manually run from the GitHub UI
+  workflow_dispatch:
 jobs:
   check_dry_run_no_branches:
     runs-on: ubuntu-latest
