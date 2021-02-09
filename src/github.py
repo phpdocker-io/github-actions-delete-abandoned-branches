@@ -50,12 +50,12 @@ class Github:
                 print(f'Ignoring branch `{branch_name}` because it is on the list of ignored branches')
                 continue
 
-            # Move on if commit is in an open pull request or branch is base for a pull request
+            # Move on if commit is in an open pull request
             if self.has_open_pulls(commit_hash=commit_hash):
                 print(f'Ignoring branch `{branch_name}` because it has open pulls')
                 continue
 
-            # Move on if commit is in an open pull request or branch is base for a pull request
+            # Move on if branch is base for a pull request
             if self.is_pull_request_base(branch=branch_name):
                 print(f'Ignoring branch `{branch_name}` because it is the base for a pull request of another branch')
                 continue
