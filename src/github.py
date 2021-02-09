@@ -38,12 +38,12 @@ class Github:
             print(f'Analyzing branch `{branch_name}`...')
 
             # Immediately discard protected branches, default branch and ignored branches
-            if branch.get('protected') is True:
-                print(f'Ignoring branch `{branch_name}` because it is protected')
-                continue
-
             if branch_name == default_branch:
                 print(f'Ignoring branch `{branch_name}` because it is the default branch')
+                continue
+
+            if branch.get('protected') is True:
+                print(f'Ignoring branch `{branch_name}` because it is protected')
                 continue
 
             if branch_name in ignore_branches:
@@ -67,8 +67,6 @@ class Github:
 
             print(f'Branch `{branch_name}` meets the criteria for deletion')
             deletable_branches.append(branch_name)
-
-        print(deletable_branches)
 
         return deletable_branches
 
