@@ -88,6 +88,9 @@ class Github:
 
         response = requests.get(url=url, headers=headers)
 
+        if response.status_code != 200:
+            raise RuntimeError('Error: could not determine default branch. This is a big one.')
+
         return response.json().get('default_branch')
 
     def has_open_pulls(self, commit_hash: str) -> bool:
