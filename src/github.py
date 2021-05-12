@@ -17,7 +17,7 @@ class Github:
         }
 
     def get_paginated_branches_url(self, page: int = 0):
-        return f'{GH_BASE_URL}/repos/{self.github_repo}/branches?per_page=30&page={page}'
+        return f'{GH_BASE_URL}/repos/{self.github_repo}/branches?protected=false&per_page=30&page={page}'
 
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
         # Default branch might not be protected
@@ -36,7 +36,7 @@ class Github:
         current_page = 0
 
         while len(branches) > 0:
-            for branch in response.json():
+            for branch in branches:
                 branch_name = branch.get('name')
 
                 commit_hash = branch.get('commit', {}).get('sha')
@@ -49,6 +49,8 @@ class Github:
                     print(f'Ignoring `{branch_name}` because it is the default branch')
                     continue
 
+                # We're already retrieving non-protected branches from the API, but it pays being careful when dealing
+                # with third party apis
                 if branch.get('protected') is True:
                     print(f'Ignoring `{branch_name}` because it is protected')
                     continue
@@ -78,7 +80,7 @@ class Github:
             # Re-request next page
             current_page += 1
             response = requests.get(url=self.get_paginated_branches_url(page=current_page), headers=headers)
-            branches = response.json()
+            branches: list = response.json()
 
         return deletable_branches
 
