@@ -16,11 +16,14 @@ class Github:
             'content-type': 'application/vnd.github.v3+json',
         }
 
+    def get_paginated_branches_url(self, page: int = 0):
+        return f'{GH_BASE_URL}/repos/{self.github_repo}/branches?per_page=30&page={page}'
+
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
         # Default branch might not be protected
         default_branch = self.get_default_branch()
 
-        url = f'{GH_BASE_URL}/repos/{self.github_repo}/branches'
+        url = self.get_paginated_branches_url()
         headers = self.make_headers()
 
         response = requests.get(url=url, headers=headers)
@@ -29,44 +32,53 @@ class Github:
 
         deletable_branches = []
         branch: dict
-        for branch in response.json():
-            branch_name = branch.get('name')
+        branches: list = response.json()
+        current_page = 0
 
-            commit_hash = branch.get('commit', {}).get('sha')
-            commit_url = branch.get('commit', {}).get('url')
+        while len(branches) > 0:
+            for branch in response.json():
+                branch_name = branch.get('name')
 
-            print(f'Analyzing branch `{branch_name}`...')
+                commit_hash = branch.get('commit', {}).get('sha')
+                commit_url = branch.get('commit', {}).get('url')
 
-            # Immediately discard protected branches, default branch and ignored branches
-            if branch_name == default_branch:
-                print(f'Ignoring branch `{branch_name}` because it is the default branch')
-                continue
+                print(f'Analyzing branch `{branch_name}`...')
 
-            if branch.get('protected') is True:
-                print(f'Ignoring branch `{branch_name}` because it is protected')
-                continue
+                # Immediately discard protected branches, default branch and ignored branches
+                if branch_name == default_branch:
+                    print(f'Ignoring `{branch_name}` because it is the default branch')
+                    continue
 
-            if branch_name in ignore_branches:
-                print(f'Ignoring branch `{branch_name}` because it is on the list of ignored branches')
-                continue
+                if branch.get('protected') is True:
+                    print(f'Ignoring `{branch_name}` because it is protected')
+                    continue
 
-            # Move on if commit is in an open pull request
-            if self.has_open_pulls(commit_hash=commit_hash):
-                print(f'Ignoring branch `{branch_name}` because it has open pulls')
-                continue
+                if branch_name in ignore_branches:
+                    print(f'Ignoring `{branch_name}` because it is on the list of ignored branches')
+                    continue
 
-            # Move on if branch is base for a pull request
-            if self.is_pull_request_base(branch=branch_name):
-                print(f'Ignoring branch `{branch_name}` because it is the base for a pull request of another branch')
-                continue
+                # Move on if commit is in an open pull request
+                if self.has_open_pulls(commit_hash=commit_hash):
+                    print(f'Ignoring `{branch_name}` because it has open pulls')
+                    continue
 
-            # Move on if last commit is newer than last_commit_age_days
-            if self.is_commit_older_than(commit_url=commit_url, older_than_days=last_commit_age_days) is False:
-                print(f'Ignoring branch `{branch_name}` because last commit is newer than {last_commit_age_days} days')
-                continue
+                # Move on if branch is base for a pull request
+                if self.is_pull_request_base(branch=branch_name):
+                    print(f'Ignoring `{branch_name}` because it is the base for a pull request of another branch')
+                    continue
 
-            print(f'Branch `{branch_name}` meets the criteria for deletion')
-            deletable_branches.append(branch_name)
+                # Move on if last commit is newer than last_commit_age_days
+                if self.is_commit_older_than(commit_url=commit_url, older_than_days=last_commit_age_days) is False:
+                    print(f'Ignoring `{branch_name}` because last commit is newer than {last_commit_age_days} days')
+                    continue
+
+                print(f'Branch `{branch_name}` meets the criteria for deletion')
+                deletable_branches.append(branch_name)
+
+            # Re-request next page
+            current_page += 1
+            response = requests.get(url=self.get_paginated_branches_url(page=current_page), headers=headers)
+            branches = response.json()
 
         return deletable_branches
 
