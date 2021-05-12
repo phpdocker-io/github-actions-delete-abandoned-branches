@@ -16,7 +16,7 @@ class Github:
             'content-type': 'application/vnd.github.v3+json',
         }
 
-    def get_paginated_branches_url(self, page: int = 0):
+    def get_paginated_branches_url(self, page: int = 0) -> str:
         return f'{GH_BASE_URL}/repos/{self.github_repo}/branches?protected=false&per_page=30&page={page}'
 
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
@@ -79,7 +79,11 @@ class Github:
 
             # Re-request next page
             current_page += 1
+
             response = requests.get(url=self.get_paginated_branches_url(page=current_page), headers=headers)
+            if response.status_code != 200:
+                raise RuntimeError(f'Failed to make request to {url}. {response} {response.json()}')
+
             branches: list = response.json()
 
         return deletable_branches
