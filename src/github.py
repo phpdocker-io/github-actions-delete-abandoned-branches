@@ -33,7 +33,7 @@ class Github:
         deletable_branches = []
         branch: dict
         branches: list = response.json()
-        current_page = 0
+        current_page = 1
 
         while len(branches) > 0:
             for branch in branches:
