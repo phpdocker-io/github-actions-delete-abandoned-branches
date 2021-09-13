@@ -66,7 +66,7 @@ class Github:
 
                 # Delete if it's part of a pull request that's merged
                 if self.pull_was_merged(commit_hash=commit_hash):
-                    print(f'Branch `{branch_name}` meets the criteria for deletion')
+                    print(f'Branch `{branch_name}` was merged and the PR closed. Meets the criteria for deletion')
                     deletable_branches.append(branch_name)
                     continue
 
