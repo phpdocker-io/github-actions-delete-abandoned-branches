@@ -22,6 +22,10 @@ inputs:
   github_token:
     description: "The github token to use on requests to the github api"
     required: true
+  issue_repos:
+    description: "Comma-separated list of repositories to scan for mentions of branches in open issues"
+    required: false
+    default: ""
 
 outputs:
   deleted_branches: # id of output
@@ -35,3 +39,4 @@ runs:
     - ${{ inputs.last_commit_age_days }}
     - ${{ inputs.dry_run }}
     - ${{ inputs.github_token }}
+    - ${{ inputs.issue_repos }}

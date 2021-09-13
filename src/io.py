@@ -3,12 +3,12 @@ from os import getenv
 from typing import List
 
 
-def parse_input() -> (list, int, bool, str, str):
+def parse_input() -> (list, int, bool, str, str, list):
     args: List[str] = sys.argv
 
-    if len(args) != 5:
+    if len(args) != 6:
         input_string = ' '.join(args)
-        expected_string = f'{args[0]} ignore_branches last_commit_age_days dry_run_yes_no'
+        expected_string = f'{args[0]} ignore_branches last_commit_age_days dry_run_yes_no issue_repos'
         raise RuntimeError(f'Incorrect input: {input_string}. Expected: {expected_string}')
 
     branches_raw: str = args[1]
@@ -25,7 +25,12 @@ def parse_input() -> (list, int, bool, str, str):
 
     github_repo = getenv('GITHUB_REPOSITORY')
 
-    return ignore_branches, last_commit_age_days, dry_run, github_token, github_repo
+    issue_repos_raw: str = args[-1]
+    issue_repos = issue_repos_raw.split(',')
+    if issue_repos == ['']:
+        issue_repos = []
+
+    return ignore_branches, last_commit_age_days, dry_run, github_token, github_repo, issue_repos
 
 
 def format_output(output_strings: dict) -> None:
