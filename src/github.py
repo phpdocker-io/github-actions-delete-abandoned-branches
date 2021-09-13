@@ -131,8 +131,7 @@ class Github:
 
         pull_request: dict
         for pull_request in response.json():
-            print(pull_request)
-            if pull_request.get('merged'):
+            if pull_request.get('state') == 'closed' and 'merged_at' in pull_request:
                 return True
 
         return False
