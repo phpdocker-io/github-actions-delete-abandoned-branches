@@ -64,6 +64,12 @@ class Github:
                     print(f'Ignoring `{branch_name}` because it has open pulls')
                     continue
 
+                # Delete if it's part of a pull request that's merged
+                if self.pull_was_merged(branch=branch_name):
+                    print(f'Branch `{branch_name}` meets the criteria for deletion')
+                    deletable_branches.append(branch_name)
+                    continue
+
                 # Move on if branch is base for a pull request
                 if self.is_pull_request_base(branch=branch_name):
                     print(f'Ignoring `{branch_name}` because it is the base for a pull request of another branch')
@@ -110,6 +116,25 @@ class Github:
             raise RuntimeError('Error: could not determine default branch. This is a big one.')
 
         return response.json().get('default_branch')
+
+    def pull_was_merged(self, commit_hash: str) -> bool:
+        """
+        Returns true if commit is part of a merged pull request
+        """
+        url = f'{GH_BASE_URL}/repos/{self.github_repo}/commits/{commit_hash}/pulls'
+        headers = self.make_headers()
+        headers['accept'] = 'application/vnd.github.groot-preview+json'
+
+        response = requests.get(url=url, headers=headers)
+        if response.status_code != 200:
+            raise RuntimeError(f'Failed to make request to {url}. {response} {response.json()}')
+
+        pull_request: dict
+        for pull_request in response.json():
+            if pull_request.get('merged'):
+                return True
+
+        return False
 
     def has_open_pulls(self, commit_hash: str) -> bool:
         """
