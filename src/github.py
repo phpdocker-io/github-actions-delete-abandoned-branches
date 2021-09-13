@@ -131,6 +131,7 @@ class Github:
 
         pull_request: dict
         for pull_request in response.json():
+            print(pull_request)
             if pull_request.get('merged'):
                 return True
 
