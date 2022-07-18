@@ -2,11 +2,8 @@ from datetime import datetime
 
 from src import requests
 
-GH_BASE_URL = "https://api.github.com"
-
-
 class Github:
-    def __init__(self, github_repo: str, github_token: str):
+    def __init__(self, github_repo: str, github_token: str, github_base_url: str):
         self.github_token = github_token
         self.github_repo = github_repo
 
@@ -17,7 +14,7 @@ class Github:
         }
 
     def get_paginated_branches_url(self, page: int = 0) -> str:
-        return f'{GH_BASE_URL}/repos/{self.github_repo}/branches?protected=false&per_page=30&page={page}'
+        return f'{github_base_url}/repos/{self.github_repo}/branches?protected=false&per_page=30&page={page}'
 
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
         # Default branch might not be protected
@@ -91,7 +88,7 @@ class Github:
     def delete_branches(self, branches: list) -> None:
         for branch in branches:
             print(f'Deleting branch `{branch}`...')
-            url = f'{GH_BASE_URL}/repos/{self.github_repo}/git/refs/heads/{branch}'
+            url = f'{github_base_url}/repos/{self.github_repo}/git/refs/heads/{branch}'
 
             response = requests.request(method='DELETE', url=url, headers=self.make_headers())
             if response.status_code != 204:
@@ -101,7 +98,7 @@ class Github:
             print(f'Branch `{branch}` DELETED!')
 
     def get_default_branch(self) -> str:
-        url = f'{GH_BASE_URL}/repos/{self.github_repo}'
+        url = f'{github_base_url}/repos/{self.github_repo}'
         headers = self.make_headers()
 
         response = requests.get(url=url, headers=headers)
@@ -115,7 +112,7 @@ class Github:
         """
         Returns true if commit is part of an open pull request or the branch is the base for a pull request
         """
-        url = f'{GH_BASE_URL}/repos/{self.github_repo}/commits/{commit_hash}/pulls'
+        url = f'{github_base_url}/repos/{self.github_repo}/commits/{commit_hash}/pulls'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 
@@ -134,7 +131,7 @@ class Github:
         """
         Returns true if the given branch is base for another pull request.
         """
-        url = f'{GH_BASE_URL}/repos/{self.github_repo}/pulls?base={branch}'
+        url = f'{github_base_url}/repos/{self.github_repo}/pulls?base={branch}'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 

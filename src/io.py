@@ -25,7 +25,9 @@ def parse_input() -> (list, int, bool, str, str):
 
     github_repo = getenv('GITHUB_REPOSITORY')
 
-    return ignore_branches, last_commit_age_days, dry_run, github_token, github_repo
+    github_base_url = args[5]
+
+    return ignore_branches, last_commit_age_days, dry_run, github_token, github_repo, github_base_url
 
 
 def format_output(output_strings: dict) -> None:
