@@ -6,9 +6,9 @@ from typing import List
 def parse_input() -> (list, int, bool, str, str):
     args: List[str] = sys.argv
 
-    if len(args) != 5:
+    if len(args) != 6:
         input_string = ' '.join(args)
-        expected_string = f'{args[0]} ignore_branches last_commit_age_days dry_run_yes_no'
+        expected_string = f'{args[0]} ignore_branches last_commit_age_days dry_run_yes_no github_token github_repo github_base_url'
         raise RuntimeError(f'Incorrect input: {input_string}. Expected: {expected_string}')
 
     branches_raw: str = args[1]

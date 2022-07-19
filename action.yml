@@ -25,6 +25,7 @@ inputs:
   github_base_url:
     description: "The API base url to be used in requests to GitHub Enterprise"
     required: false
+    default: "https://api.github.com"
 
 outputs:
   deleted_branches: # id of output
