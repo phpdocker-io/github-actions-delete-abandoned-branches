@@ -64,6 +64,7 @@ jobs:
           github_token: ${{ github.token }}
           last_commit_age_days: 100
           ignore_branches: next-version,dont-deleteme
+          github_base_url: https://github.mycompany.com/api/v3
 
           # Disable dry run and actually get stuff deleted
           dry_run: no
