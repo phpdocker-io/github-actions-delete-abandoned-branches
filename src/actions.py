@@ -6,7 +6,7 @@ def run_action(
         ignore_branches: list,
         last_commit_age_days: int,
         github_token: str,
-        github_base_url: str = 'https://api.github.com',
+        github_base_url: str,
         dry_run: bool = True
 ) -> list:
     input_data = {
