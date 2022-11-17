@@ -15,7 +15,7 @@ class Github:
         }
 
     def get_paginated_branches_url(self, page: int = 0) -> str:
-        return f'{self.github_base_url}/repos/{self.github_repo}/branches?protected=false&per_page=30&page={page}'
+        return f'{self.github_base_url}/repos/{self.github_repo}/branches?per_page=30&page={page}'
 
     def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
         # Default branch might not be protected
