@@ -33,7 +33,48 @@ outputs:
 
 runs:
   using: 'docker'
-  image: 'docker://phpdockerio/github-actions-delete-abandoned-branches:latest'
+  image: '# action.yml
+name: 'Delete abandoned branches'
+description: |
+  Deletes old branches from your repo as long as they aren't part of an open pull request, the default branch, or protected.
+author: Luis Pabon (PHPDocker.io)
+branding:
+  icon: git-branch
+  color: orange
+
+inputs:
+  ignore_branches:
+    description: "Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here."
+    required: false
+    default: ""
+  last_commit_age_days:
+    description: "How old in days must be the last commit into the branch for the branch to be deleted."
+    required: false
+    default: "60"
+  dry_run:
+    description: "Whether we're actually deleting branches at all. Defaults to 'yes'. Possible values: yes, no (case sensitive)"
+    required: true
+  github_token:
+    description: "The github token to use on requests to the github api"
+    required: true
+  github_base_url:
+    description: "The API base url to be used in requests to GitHub Enterprise"
+    required: false
+    default: "https://api.github.com"
+
+outputs:
+  deleted_branches: # id of output
+    description: 'Branches that have been deleted, if any'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.ignore_branches }}
+    - ${{ inputs.last_commit_age_days }}
+    - ${{ inputs.dry_run }}
+    - ${{ inputs.github_token }}
+    - ${{ inputs.github_base_url }}'
   args:
     - ${{ inputs.ignore_branches }}
     - ${{ inputs.last_commit_age_days }}
