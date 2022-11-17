@@ -34,7 +34,9 @@ class Github:
         current_page = 1
 
         while len(branches) > 0:
+            print(f'Branches `{branches}`')
             for branch in branches:
+                print(f'Branch: `{branch}`')
                 branch_name = branch.get('name')
 
                 commit_hash = branch.get('commit', {}).get('sha')
@@ -45,12 +47,6 @@ class Github:
                 # Immediately discard protected branches, default branch and ignored branches
                 if branch_name == default_branch:
                     print(f'Ignoring `{branch_name}` because it is the default branch')
-                    continue
-
-                # We're already retrieving non-protected branches from the API, but it pays being careful when dealing
-                # with third party apis
-                if branch.get('protected') is True:
-                    print(f'Ignoring `{branch_name}` because it is protected')
                     continue
 
                 if branch_name in ignore_branches:
