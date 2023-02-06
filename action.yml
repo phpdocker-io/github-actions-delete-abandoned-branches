@@ -22,6 +22,10 @@ inputs:
   github_token:
     description: "The github token to use on requests to the github api"
     required: true
+  github_base_url:
+    description: "The API base url to be used in requests to GitHub Enterprise"
+    required: false
+    default: "https://api.github.com"
 
 outputs:
   deleted_branches: # id of output
@@ -35,3 +39,4 @@ runs:
     - ${{ inputs.last_commit_age_days }}
     - ${{ inputs.dry_run }}
     - ${{ inputs.github_token }}
+    - ${{ inputs.github_base_url }}
