@@ -89,7 +89,7 @@ class Github:
     def delete_branches(self, branches: list) -> None:
         for branch in branches:
             print(f'Deleting branch `{branch}`...')
-            url = f'{self.github_base_url}/repos/{self.github_repo}/git/refs/heads/{branch}'
+            url = f'{self.github_base_url}/repos/{self.github_repo}/git/refs/heads/{branch.replace("#", "%23")}'
 
             response = requests.request(method='DELETE', url=url, headers=self.make_headers())
             if response.status_code != 204:
