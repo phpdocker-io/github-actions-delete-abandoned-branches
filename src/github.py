@@ -17,7 +17,7 @@ class Github:
     def get_paginated_branches_url(self, page: int = 0) -> str:
         return f'{self.github_base_url}/repos/{self.github_repo}/branches?protected=false&per_page=30&page={page}'
 
-    def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list) -> list:
+    def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list, prefixes: list) -> list:
         # Default branch might not be protected
         default_branch = self.get_default_branch()
 
@@ -42,7 +42,7 @@ class Github:
 
                 print(f'Analyzing branch `{branch_name}`...')
 
-                # Immediately discard protected branches, default branch and ignored branches
+                # Immediately discard protected branches, default branch, ignored branches and branches not matching prefix
                 if branch_name == default_branch:
                     print(f'Ignoring `{branch_name}` because it is the default branch')
                     continue
@@ -56,6 +56,16 @@ class Github:
                 if branch_name in ignore_branches:
                     print(f'Ignoring `{branch_name}` because it is on the list of ignored branches')
                     continue
+
+                # If prefixes are provided, only consider branches that match one of the prefixes
+                if len(prefixes) > 0:
+                    found_prefix = False
+                    for prefix in prefixes:
+                        if branch_name.startswith(prefix):
+                            found_prefix = True
+                    if found_prefix is False:
+                        print(f'Ignoring `{branch_name}` because it does not match any provided prefix')
+                        continue
 
                 # Move on if commit is in an open pull request
                 if self.has_open_pulls(commit_hash=commit_hash):

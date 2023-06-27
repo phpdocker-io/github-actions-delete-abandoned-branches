@@ -16,6 +16,10 @@ inputs:
     description: "How old in days must be the last commit into the branch for the branch to be deleted."
     required: false
     default: "60"
+  prefixes:
+    description: "Comma-separated list of prefixes a branch must match to be deleted."
+    required: false
+    default: ""
   dry_run:
     description: "Whether we're actually deleting branches at all. Defaults to 'yes'. Possible values: yes, no (case sensitive)"
     required: true
@@ -37,6 +41,7 @@ runs:
   args:
     - ${{ inputs.ignore_branches }}
     - ${{ inputs.last_commit_age_days }}
+    - ${{ inputs.prefixes }}
     - ${{ inputs.dry_run }}
     - ${{ inputs.github_token }}
     - ${{ inputs.github_base_url }}
