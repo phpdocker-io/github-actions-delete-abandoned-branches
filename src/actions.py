@@ -5,6 +5,7 @@ def run_action(
         github_repo: str,
         ignore_branches: list,
         last_commit_age_days: int,
+        prefixes: list,
         github_token: str,
         github_base_url: str,
         dry_run: bool = True
@@ -13,6 +14,7 @@ def run_action(
         'github_repo': github_repo,
         'ignore_branches': ignore_branches,
         'last_commit_age_days': last_commit_age_days,
+        'prefixes': prefixes,
         'dry_run': dry_run,
         'github_base_url': github_base_url
     }
@@ -21,7 +23,7 @@ def run_action(
 
     github = Github(github_repo=github_repo, github_token=github_token, github_base_url=github_base_url)
 
-    branches = github.get_deletable_branches(last_commit_age_days=last_commit_age_days, ignore_branches=ignore_branches)
+    branches = github.get_deletable_branches(last_commit_age_days=last_commit_age_days, ignore_branches=ignore_branches, prefixes=prefixes)
 
     print(f"Branches queued for deletion: {branches}")
     if dry_run is False:
