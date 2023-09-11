@@ -24,14 +24,14 @@ A branch must meet all the following criteria to be deemed abandoned and safe to
 
 `* mandatory`
 
-| Name                   | Description                                                                                                                                     | Example                               |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------|
-| `last_commit_age_days` | How old in days must be the last commit into the branch for the branch to be deleted. Default: `60`                                             | `90`                                  |
-| `ignore_branches`      | Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here. Default: `null`                | `foo,bar`                             |
-| `allowed_prefixes`     | Comma-separated list of prefixes a branch must match to be deleted. Default: `null`                                                             | `feature/,bugfix/`                    |
-| `dry_run`*             | Whether we're actually deleting branches at all. Possible values: `yes, no` (case sensitive). Default: `yes`                                    | `no`                                  |
-| `github_token`*        | The github token to use on requests to the github api. You can use the one github actions provide. Default: `null`                              | `${{ github.token }}`                 |
-| `github_base_url`      | The github API's base url. You only need to override this when using Github Enterprise on a different domain. Default: `https://api.github.com` | `https://github.mycompany.com/api/v3` |
+| Name                   | Description                                                                                                                                         | Example                               |
+|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------|
+| `github_token`*        | **Required.** The github token to use on requests to the github api. You can use the one github actions provide.                                    | `${{ github.token }}`                 |
+| `last_commit_age_days` | How old in days must be the last commit into the branch for the branch to be deleted. **Default:** `60`                                             | `90`                                  |
+| `ignore_branches`      | Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here. **Default:** `null`                | `foo,bar`                             |
+| `allowed_prefixes`     | Comma-separated list of prefixes a branch must match to be deleted. **Default:** `null`                                                             | `feature/,bugfix/`                    |
+| `dry_run`              | Whether we're actually deleting branches at all. **Possible values:** `yes, no` (case sensitive). **Default:** `yes`                                | `no`                                  |
+| `github_base_url`      | The github API's base url. You only need to override this when using Github Enterprise on a different domain. **Default:** `https://api.github.com` | `https://github.mycompany.com/api/v3` |
 
 ### Note: dry run
 
