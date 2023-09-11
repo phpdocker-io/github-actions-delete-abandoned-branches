@@ -85,7 +85,8 @@ class InputParser:
         if ignore_branches == ['']:
             ignore_branches = []
 
-        allowed_prefixes = args.allowed_prefixes.split(',')
+        allowed_prefixes_raw: str = "" if args.allowed_prefixes is None else args.allowed_prefixes
+        allowed_prefixes = args.allowed_prefixes_raw.split(',')
         if allowed_prefixes == ['']:
             allowed_prefixes = []
 
