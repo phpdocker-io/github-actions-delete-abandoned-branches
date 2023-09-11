@@ -49,7 +49,6 @@ class InputParser:
             help="How old in days must be the last commit into the branch for the branch to be deleted",
             default=60,
             type=int,
-            required=True,
         )
 
         parser.add_argument(
