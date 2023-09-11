@@ -69,7 +69,7 @@ class InputParser:
         )
 
         parser.add_argument(
-            "--dry_run",
+            "--dry-run",
             choices=["yes", "no"],
             default="yes",
             help="Whether to delete branches at all. Defaults to 'yes'. Possible values: yes, no (case sensitive)"
