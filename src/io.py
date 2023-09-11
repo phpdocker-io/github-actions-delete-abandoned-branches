@@ -63,7 +63,7 @@ class InputParser:
     def parse_input(self) -> Options:
         args = self.get_args()
 
-        branches_raw: str = args.ignore_branches
+        branches_raw: str = "" if args.ignore_branches is None else args.ignore_branches
         ignore_branches = branches_raw.split(',')
         if ignore_branches == ['']:
             ignore_branches = []
