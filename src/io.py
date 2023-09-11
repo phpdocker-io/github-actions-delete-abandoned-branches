@@ -23,23 +23,6 @@ class Options:
         self.dry_run = dry_run
         self.github_base_url = github_base_url
 
-    def validate(self):
-        errors = []
-        if self.github_token is None:
-            errors.append("github_token is undefined")
-
-        if self.github_repo is None:
-            errors.append("github_repo is undefined")
-
-        if self.github_base_url is None:
-            errors.append("github_base_url is undefined")
-
-        if self.last_commit_age_days is None:
-            errors.append("last_commit_age_days is undefined")
-
-        if len(errors) > 0:
-            raise RuntimeError(f"Errors found while parsing input options: {errors}")
-
 
 class InputParser:
     @staticmethod
@@ -64,6 +47,7 @@ class InputParser:
         parser.add_argument(
             "--last-commit-age-days",
             help="How old in days must be the last commit into the branch for the branch to be deleted",
+            default=60,
             type=int,
             required=True,
         )
@@ -93,7 +77,7 @@ class InputParser:
         # Dry run can only be either `true` or `false`, as strings due to github actions input limitations
         dry_run = False if args.dry_run == 'no' else True
 
-        options = Options(
+        return Options(
             ignore_branches=ignore_branches,
             last_commit_age_days=args.last_commit_age_days,
             allowed_prefixes=allowed_prefixes,
@@ -102,10 +86,6 @@ class InputParser:
             github_repo=getenv('GITHUB_REPOSITORY'),
             github_base_url=args.github_base_url
         )
-
-        options.validate()
-
-        return options
 
 
 def format_output(output_strings: dict) -> None:
