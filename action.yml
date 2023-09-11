@@ -16,7 +16,7 @@ inputs:
     description: "How old in days must be the last commit into the branch for the branch to be deleted."
     required: false
     default: "60"
-  prefixes:
+  allowed_prefixes:
     description: "Comma-separated list of prefixes a branch must match to be deleted."
     required: false
     default: ""
