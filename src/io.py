@@ -44,11 +44,11 @@ class InputParser:
             help="The API base url to be used in requests to GitHub Enterprise"
         )
 
+        # Not setting `type=int` to avoid issues when it's passed as a quoted string
         parser.add_argument(
             "--last-commit-age-days",
             help="How old in days must be the last commit into the branch for the branch to be deleted",
             default=60,
-            type=int,
         )
 
         parser.add_argument(
@@ -78,7 +78,7 @@ class InputParser:
 
         return Options(
             ignore_branches=ignore_branches,
-            last_commit_age_days=args.last_commit_age_days,
+            last_commit_age_days=int(args.last_commit_age_days),
             allowed_prefixes=allowed_prefixes,
             dry_run=dry_run,
             github_token=args.github_token,
