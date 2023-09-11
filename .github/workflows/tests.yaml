@@ -25,7 +25,7 @@ jobs:
             action_container \
             --github-token="${{ github.token }}"
 
-      - name: Run our action with basic options
+      - name: Set for deletion all branches except for deletable-but-ignored
         run: |
           docker run --rm -t \
             -e GITHUB_REPOSITORY \
@@ -37,15 +37,15 @@ jobs:
             --dry-run=yes \
             --github-token="${{ github.token }}"
 
-      - name: Run our action with more options
+      - name: Set for deletion all branches named `test_prefix/*` except for `test_prefix/two`
         run: |
           docker run --rm -t \
             -e GITHUB_REPOSITORY \
             -e GITHUB_OUTPUT \
             -v "${GITHUB_OUTPUT}:${GITHUB_OUTPUT}" \
             action_container \
-            --allowed-prefixes=deletable-but-ignored,another-prefix \
-            --ignore-branches=foo,bar \
+            --allowed-prefixes=test_prefix/ \
+            --ignore-branches=test_prefix/two \
             --last-commit-age-days=9 \
             --dry-run=yes \
             --github-token="${{ github.token }}"
