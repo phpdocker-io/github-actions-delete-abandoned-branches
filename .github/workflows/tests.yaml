@@ -11,16 +11,16 @@ jobs:
     name: Runs the action with no ignore branches
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Build action container
+        run: docker build -t action_container .
 
       - name: Run our action
-        uses: ./
-        id: delete_stuff
-        with:
-          github_token: ${{ github.token }}
-          last_commit_age_days: 9
-          dry_run: yes
-          ignore_branches: deletable-but-ignored
+        run: |
+          docker run --rm action_container \
+            --ignore-branches=deletable-but-ignored \
+            --last-commit-age-days=9 \
+            --dry-run=yes \
+            --github-token="${{ github.token }}"
 
-      - name: Get output
-        run: "echo 'Deleted branches: ${{ steps.delete_stuff.outputs.deleted_branches }}'"
