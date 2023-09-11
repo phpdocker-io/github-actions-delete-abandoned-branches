@@ -16,10 +16,19 @@ jobs:
       - name: Build action container
         run: docker build -t action_container .
 
-      - name: Run our action
+      - name: Run our action with basic options
         run: |
           docker run --rm action_container \
             --ignore-branches=deletable-but-ignored \
+            --last-commit-age-days=9 \
+            --dry-run=yes \
+            --github-token="${{ github.token }}"
+
+      - name: Run our action with more options
+        run: |
+          docker run --rm action_container \
+            --allowed-prefixes=deletable-but-ignored,another-prefix \
+            --ignore-branches=foo,bar
             --last-commit-age-days=9 \
             --dry-run=yes \
             --github-token="${{ github.token }}"
