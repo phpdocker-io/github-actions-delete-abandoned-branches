@@ -39,9 +39,9 @@ runs:
   using: 'docker'
   image: 'docker://phpdockerio/github-actions-delete-abandoned-branches:v2'
   args:
-    - --ignore-branches="${{ inputs.ignore_branches }}"
-    - --last-commit-age-days="${{ inputs.last_commit_age_days }}"
+    - --ignore-branches=${{ inputs.ignore_branches }}
+    - --last-commit-age-days=${{ inputs.last_commit_age_days }}
     - --allowed-prefixes=${{ inputs.allowed_prefixes }}
-    - --dry-run="${{ inputs.dry_run }}"
-    - --github-token="${{ inputs.github_token }}"
-    - --github-base-url="${{ inputs.github_base_url }}"
+    - --dry-run=${{ inputs.dry_run }}
+    - --github-token=${{ inputs.github_token }}
+    - --github-base-url=${{ inputs.github_base_url }}
