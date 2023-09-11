@@ -1,7 +1,5 @@
 import argparse
-import sys
 from os import getenv
-from typing import List
 
 DEFAULT_GITHUB_API_URL = 'https://api.github.com'
 
@@ -48,20 +46,23 @@ class InputParser:
     def get_args() -> argparse.Namespace:
         parser = argparse.ArgumentParser('Github Actions Delete Old Branches')
 
-        parser.add_argument("--ignore_branches", help="Comma-separated list of branches to ignore")
-
-        parser.add_argument("--allowed_prefixes",
-                            help="Comma-separated list of prefixes a branch must match to be deleted")
-        parser.add_argument("--github_token")
+        parser.add_argument("--ignore-branches", help="Comma-separated list of branches to ignore")
 
         parser.add_argument(
-            "--github_base_url",
+            "--allowed-prefixes",
+            help="Comma-separated list of prefixes a branch must match to be deleted"
+        )
+
+        parser.add_argument("--github-token", required=True)
+
+        parser.add_argument(
+            "--github-base-url",
             default=DEFAULT_GITHUB_API_URL,
             help="The API base url to be used in requests to GitHub Enterprise"
         )
 
         parser.add_argument(
-            "--last_commit_age_days",
+            "--last-commit-age-days",
             help="How old in days must be the last commit into the branch for the branch to be deleted",
             type=int,
             required=True,
@@ -104,6 +105,7 @@ class InputParser:
         options.validate()
 
         return options
+
 
 def format_output(output_strings: dict) -> None:
     file_path = getenv('GITHUB_OUTPUT')
