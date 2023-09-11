@@ -25,7 +25,7 @@ jobs:
             action_container \
             --github-token="${{ github.token }}"
 
-      - name: "Test: ignore branch 'test_prefix/two' and don't fail on quoted --last-commit-age-days"
+      - name: "Test: ignore branch 'test_prefix/two'"
         run: |
           docker run --rm -t \
             -e GITHUB_REPOSITORY \
@@ -33,7 +33,7 @@ jobs:
             -v "${GITHUB_OUTPUT}:${GITHUB_OUTPUT}" \
             action_container \
             --ignore-branches="test_prefix/two" \
-            --last-commit-age-days="9" \
+            --last-commit-age-days=9 \
             --dry-run=yes \
             --github-token="${{ github.token }}"
 
