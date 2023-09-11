@@ -45,7 +45,7 @@ jobs:
             -v "${GITHUB_OUTPUT}:${GITHUB_OUTPUT}" \
             action_container \
             --allowed-prefixes=deletable-but-ignored,another-prefix \
-            --ignore-branches=foo,bar
+            --ignore-branches=foo,bar \
             --last-commit-age-days=9 \
             --dry-run=yes \
             --github-token="${{ github.token }}"
