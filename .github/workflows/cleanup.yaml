@@ -28,4 +28,4 @@ jobs:
           github_token: ${{ github.token }}
           last_commit_age_days: 100
           dry_run: no
-          ignore_branches: v1
+          ignore_branches: test_prefix/one,test_prefix/two,test_prefix_ignored/one
