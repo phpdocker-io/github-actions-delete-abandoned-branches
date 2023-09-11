@@ -1,32 +1,20 @@
 from src.github import Github
+from src.io import Options
 
 
-def run_action(
-        github_repo: str,
-        ignore_branches: list,
-        last_commit_age_days: int,
-        prefixes: list,
-        github_token: str,
-        github_base_url: str,
-        dry_run: bool = True
-) -> list:
-    input_data = {
-        'github_repo': github_repo,
-        'ignore_branches': ignore_branches,
-        'last_commit_age_days': last_commit_age_days,
-        'prefixes': prefixes,
-        'dry_run': dry_run,
-        'github_base_url': github_base_url
-    }
+def run_action(options: Options) -> list:
+    print(f"Starting github action to cleanup old branches. Input: {options}")
 
-    print(f"Starting github action to cleanup old branches. Input: {input_data}")
+    github = Github(repo=options.github_repo, token=options.github_token, base_url=options.github_base_url)
 
-    github = Github(github_repo=github_repo, github_token=github_token, github_base_url=github_base_url)
-
-    branches = github.get_deletable_branches(last_commit_age_days=last_commit_age_days, ignore_branches=ignore_branches, prefixes=prefixes)
+    branches = github.get_deletable_branches(
+        last_commit_age_days=options.last_commit_age_days,
+        ignore_branches=options.ignore_branches,
+        allowed_prefixes=options.allowed_prefixes
+    )
 
     print(f"Branches queued for deletion: {branches}")
-    if dry_run is False:
+    if options.dry_run is False:
         print('This is NOT a dry run, deleting branches')
         github.delete_branches(branches=branches)
     else:

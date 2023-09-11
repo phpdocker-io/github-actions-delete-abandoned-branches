@@ -2,22 +2,28 @@ from datetime import datetime
 
 from src import requests
 
+
 class Github:
-    def __init__(self, github_repo: str, github_token: str, github_base_url: str):
-        self.github_token = github_token
-        self.github_repo = github_repo
-        self.github_base_url = github_base_url
+    def __init__(self, repo: str, token: str, base_url: str):
+        self.token = token
+        self.repo = repo
+        self.base_url = base_url
 
     def make_headers(self) -> dict:
         return {
-            'authorization': f'Bearer {self.github_token}',
+            'authorization': f'Bearer {self.token}',
             'content-type': 'application/vnd.github.v3+json',
         }
 
     def get_paginated_branches_url(self, page: int = 0) -> str:
-        return f'{self.github_base_url}/repos/{self.github_repo}/branches?protected=false&per_page=30&page={page}'
+        return f'{self.base_url}/repos/{self.repo}/branches?protected=false&per_page=30&page={page}'
 
-    def get_deletable_branches(self, last_commit_age_days: int, ignore_branches: list, prefixes: list) -> list:
+    def get_deletable_branches(
+            self,
+            last_commit_age_days: int,
+            ignore_branches: list[str],
+            allowed_prefixes: list[str]
+    ) -> list[str]:
         # Default branch might not be protected
         default_branch = self.get_default_branch()
 
@@ -42,7 +48,7 @@ class Github:
 
                 print(f'Analyzing branch `{branch_name}`...')
 
-                # Immediately discard protected branches, default branch, ignored branches and branches not matching prefix
+                # Immediately discard protected branches, default branch, ignored branches and branches not in prefix
                 if branch_name == default_branch:
                     print(f'Ignoring `{branch_name}` because it is the default branch')
                     continue
@@ -57,19 +63,19 @@ class Github:
                     print(f'Ignoring `{branch_name}` because it is on the list of ignored branches')
                     continue
 
-                # If prefixes are provided, only consider branches that match one of the prefixes
-                if len(prefixes) > 0:
+                # If allowed_prefixes are provided, only consider branches that match one of the prefixes
+                if len(allowed_prefixes) > 0:
                     found_prefix = False
-                    for prefix in prefixes:
+                    for prefix in allowed_prefixes:
                         if branch_name.startswith(prefix):
                             found_prefix = True
                     if found_prefix is False:
-                        print(f'Ignoring `{branch_name}` because it does not match any provided prefix')
+                        print(f'Ignoring `{branch_name}` because it does not match any provided allowed_prefixes')
                         continue
 
                 # Move on if commit is in an open pull request
                 if self.has_open_pulls(commit_hash=commit_hash):
-                    print(f'Ignoring `{branch_name}` because it has open pulls')
+                    print(f'Ignoring `{branch_name}` because it has open pull requests')
                     continue
 
                 # Move on if branch is base for a pull request
@@ -96,10 +102,10 @@ class Github:
 
         return deletable_branches
 
-    def delete_branches(self, branches: list) -> None:
+    def delete_branches(self, branches: list[str]) -> None:
         for branch in branches:
             print(f'Deleting branch `{branch}`...')
-            url = f'{self.github_base_url}/repos/{self.github_repo}/git/refs/heads/{branch.replace("#", "%23")}'
+            url = f'{self.base_url}/repos/{self.repo}/git/refs/heads/{branch.replace("#", "%23")}'
 
             response = requests.request(method='DELETE', url=url, headers=self.make_headers())
             if response.status_code != 204:
@@ -109,7 +115,7 @@ class Github:
             print(f'Branch `{branch}` DELETED!')
 
     def get_default_branch(self) -> str:
-        url = f'{self.github_base_url}/repos/{self.github_repo}'
+        url = f'{self.base_url}/repos/{self.repo}'
         headers = self.make_headers()
 
         response = requests.get(url=url, headers=headers)
@@ -123,7 +129,7 @@ class Github:
         """
         Returns true if commit is part of an open pull request or the branch is the base for a pull request
         """
-        url = f'{self.github_base_url}/repos/{self.github_repo}/commits/{commit_hash}/pulls'
+        url = f'{self.base_url}/repos/{self.repo}/commits/{commit_hash}/pulls'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 
@@ -142,7 +148,7 @@ class Github:
         """
         Returns true if the given branch is base for another pull request.
         """
-        url = f'{self.github_base_url}/repos/{self.github_repo}/pulls?base={branch}'
+        url = f'{self.base_url}/repos/{self.repo}/pulls?base={branch}'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 
