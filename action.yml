@@ -37,7 +37,7 @@ outputs:
 
 runs:
   using: 'docker'
-  image: 'docker://phpdockerio/github-actions-delete-abandoned-branches:v1'
+  image: 'docker://phpdockerio/github-actions-delete-abandoned-branches:v2'
   args:
     - --ignore-branches="${{ inputs.ignore_branches }}"
     - --last-commit-age-days="${{ inputs.last_commit_age_days }}"
