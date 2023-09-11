@@ -16,7 +16,7 @@ jobs:
       - name: Build action container
         run: docker build -t action_container .
 
-      - name: Run our action with default options
+      - name: "Test: default options"
         run: |
           docker run --rm -t \
             -e GITHUB_REPOSITORY \
@@ -25,19 +25,19 @@ jobs:
             action_container \
             --github-token="${{ github.token }}"
 
-      - name: Set for deletion all branches except for deletable-but-ignored
+      - name: "Test: ignore branch 'test_prefix/two'"
         run: |
           docker run --rm -t \
             -e GITHUB_REPOSITORY \
             -e GITHUB_OUTPUT \
             -v "${GITHUB_OUTPUT}:${GITHUB_OUTPUT}" \
             action_container \
-            --ignore-branches=deletable-but-ignored \
+            --ignore-branches="test_prefix/two" \
             --last-commit-age-days=9 \
             --dry-run=yes \
             --github-token="${{ github.token }}"
 
-      - name: Set for deletion all branches named `test_prefix/*` except for `test_prefix/two`
+      - name: "Test: allow only`test_prefix/*` except for `test_prefix/two`"
         run: |
           docker run --rm -t \
             -e GITHUB_REPOSITORY \
