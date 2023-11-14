@@ -14,7 +14,7 @@ jobs:
     steps:
 
       # Mark issues and PRs with no activity as stale after a while, and close them after a while longer
-      - uses: actions/stale@v3
+      - uses: actions/stale@f43a0e5ff2bd294095638e18286ca9a3d1956744 #v3.6.0
         with:
           stale-issue-message: 'Marking issue as stale'
           stale-pr-message: 'Marking PR as stale'
@@ -23,7 +23,7 @@ jobs:
           days-before-stale: 30
           days-before-close: 7
 
-      - uses: phpdocker-io/github-actions-delete-abandoned-branches@v2
+      - uses: phpdocker-io/github-actions-delete-abandoned-branches@e04764c2f0f714dedb80c42d5174e756568a0452 #v2.0.3
         with:
           github_token: ${{ github.token }}
           last_commit_age_days: 100

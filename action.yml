@@ -36,12 +36,19 @@ outputs:
     description: 'Branches that have been deleted, if any'
 
 runs:
-  using: 'docker'
-  image: 'docker://phpdockerio/github-actions-delete-abandoned-branches:v2'
-  args:
-    - --ignore-branches=${{ inputs.ignore_branches }}
-    - --last-commit-age-days=${{ inputs.last_commit_age_days }}
-    - --allowed-prefixes=${{ inputs.allowed_prefixes }}
-    - --dry-run=${{ inputs.dry_run }}
-    - --github-token=${{ inputs.github_token }}
-    - --github-base-url=${{ inputs.github_base_url }}
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 #v4.7.1
+      with:
+        python-version: '3.11'  
+    - name: Install Dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+    - name: Run Action
+      id: get-square
+      run: python3 main.py  --ignore-branches=${{ inputs.ignore_branches }} \ 
+        --last-commit-age-days=${{ inputs.last_commit_age_days }} --allowed-prefixes=${{ inputs.allowed_prefixes }} \
+        --dry-run=${{ inputs.dry_run }} --github-token=${{ inputs.github_token }} \
+        --github-base-url=${{ inputs.github_base_url }}
+      shell: bash
