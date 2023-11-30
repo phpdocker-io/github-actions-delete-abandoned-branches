@@ -10,6 +10,7 @@ def run_action(options: Options) -> list:
     branches = github.get_deletable_branches(
         last_commit_age_days=options.last_commit_age_days,
         ignore_branches=options.ignore_branches,
+        ignored_prefixes=options.ignored_prefixes,
         allowed_prefixes=options.allowed_prefixes
     )
 
