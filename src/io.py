@@ -8,6 +8,7 @@ class Options:
     def __init__(
             self,
             ignore_branches: list[str],
+            ignored_prefixes: list[str],
             last_commit_age_days: int,
             allowed_prefixes: list[str],
             github_token: str,
@@ -16,6 +17,7 @@ class Options:
             github_base_url: str = DEFAULT_GITHUB_API_URL
     ):
         self.ignore_branches = ignore_branches
+        self.ignored_prefixes = ignored_prefixes
         self.last_commit_age_days = last_commit_age_days
         self.allowed_prefixes = allowed_prefixes
         self.github_token = github_token
@@ -30,6 +32,11 @@ class InputParser:
         parser = argparse.ArgumentParser('Github Actions Delete Old Branches')
 
         parser.add_argument("--ignore-branches", help="Comma-separated list of branches to ignore")
+
+        parser.add_argument(
+            "--ignored-prefixes",
+            help="Comma-separated list of prefixes a branch must not match to be deleted"
+        )
 
         parser.add_argument(
             "--allowed-prefixes",
@@ -68,6 +75,11 @@ class InputParser:
         if ignore_branches == ['']:
             ignore_branches = []
 
+        ignored_prefixes_raw: str = "" if args.ignored_prefixes is None else args.ignored_prefixes
+        ignored_prefixes = ignored_prefixes_raw.split(',')
+        if ignored_prefixes == ['']:
+            ignored_prefixes = []
+
         allowed_prefixes_raw: str = "" if args.allowed_prefixes is None else args.allowed_prefixes
         allowed_prefixes = allowed_prefixes_raw.split(',')
         if allowed_prefixes == ['']:
@@ -78,6 +90,7 @@ class InputParser:
 
         return Options(
             ignore_branches=ignore_branches,
+            ignored_prefixes=ignored_prefixes,
             last_commit_age_days=args.last_commit_age_days,
             allowed_prefixes=allowed_prefixes,
             dry_run=dry_run,

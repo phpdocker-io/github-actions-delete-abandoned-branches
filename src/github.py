@@ -22,6 +22,7 @@ class Github:
             self,
             last_commit_age_days: int,
             ignore_branches: list[str],
+            ignored_prefixes: list[str],
             allowed_prefixes: list[str]
     ) -> list[str]:
         # Default branch might not be protected
@@ -62,6 +63,16 @@ class Github:
                 if branch_name in ignore_branches:
                     print(f'Ignoring `{branch_name}` because it is on the list of ignored branches')
                     continue
+
+                # If ignored_prefixes are provided, only consider branches that do not match any of the prefixes
+                if len(ignored_prefixes) > 0:
+                    found_prefix = False
+                    for prefix in ignored_prefixes:
+                        if branch_name.startswith(prefix):
+                            found_prefix = True
+                    if found_prefix is True:
+                        print(f'Ignoring `{branch_name}` because it matches one of the provided ignored_prefixes')
+                        continue
 
                 # If allowed_prefixes are provided, only consider branches that match one of the prefixes
                 if len(allowed_prefixes) > 0:

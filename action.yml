@@ -12,6 +12,10 @@ inputs:
     description: "Comma-separated list of branches to ignore and never delete. You don't need to add your protected branches here."
     required: false
     default: ""
+  ignored_prefixes:
+    description: "Comma-separated list of prefixes a branch must NOT match to be deleted."
+    required: false
+    default: ""
   last_commit_age_days:
     description: "How old in days must be the last commit into the branch for the branch to be deleted."
     required: false
@@ -40,6 +44,7 @@ runs:
   image: 'docker://phpdockerio/github-actions-delete-abandoned-branches:v2'
   args:
     - --ignore-branches=${{ inputs.ignore_branches }}
+    - --ignored-prefixes=${{ inputs.ignored_prefixes }}
     - --last-commit-age-days=${{ inputs.last_commit_age_days }}
     - --allowed-prefixes=${{ inputs.allowed_prefixes }}
     - --dry-run=${{ inputs.dry_run }}
