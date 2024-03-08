@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 
 from src import requests
 
@@ -59,7 +60,7 @@ class Github:
                     print(f'Ignoring `{branch_name}` because it is protected')
                     continue
 
-                if branch_name in ignore_branches:
+                if self.is_branch_ignored(branch=branch_name,ignore_branches=ignore_branches):
                     print(f'Ignoring `{branch_name}` because it is on the list of ignored branches')
                     continue
 
@@ -157,7 +158,15 @@ class Github:
             raise RuntimeError(f'Failed to make request to {url}. {response} {response.json()}')
 
         return len(response.json()) > 0
-
+    
+    def is_branch_ignored(self, branch: str, ignore_branches: list[str]) -> bool:
+        for ignore_branch in ignore_branches:
+            regex_pattern = '^' + re.escape(ignore_branch).replace('\\*', '.*') + '$'
+            matched = re.match(regex_pattern, branch)
+            if matched:
+                return True
+        return False
+    
     def is_commit_older_than(self, commit_url: str, older_than_days: int):
         response = requests.get(url=commit_url, headers=self.make_headers())
         if response.status_code != 200:
